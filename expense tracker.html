@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Expenses.css">
+    <style>
+       
+body
+{
+    background-color: rgb(201, 186, 92);
+}
+
+th, td
+ {
+    border: 1px solid brown;
+    padding: 8px;
+    text-align: center;
+}
+td.amount
+ {
+    text-align: right;
+}
+.description
+{
+    word-wrap: break-word;
+    max-width: 200px;
+}
+.total
+{
+    font-weight: bold;
+    text-align: right;
+}
+ 
+#expenseTable{
+    width: 70%;
+}
+ 
+#full
+{
+    display: flex;
+    gap: 300px;
+   flex-direction: row;
+   margin-left: 5px;
+   border: 5px solid brown;
+   padding: 50px;
+   border-radius: 25px;
+}
+ 
+h1{
+    color: brown;
+   
+}
+ 
+                                        
+ 
+#addbtn,#disbtn{
+    background-color: brown;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+}
+ 
+#addbtn ,#disbtn{
+    width: 70px;
+}
+ 
+    </style>
+</head>
+<body>
+    <div id="full">
+        <div id="first-half">
+            <h1>Expense Tracker</h1>
+            <form id="expenseForm">
+                <label for="amount" id="EA">Expense Amount:</label>
+                <input type="number" id="amount" placeholder="Enter the Expense amount">
+                <br><br>
+                <label for="description" id="DB">Description:</label>
+                <textarea id="description" placeholder="Enter Description" maxlength="200 required"></textarea>
+                <br><br>
+                <label for="category" id="CT">Category:</label>
+                <select id="category">
+                    <option value="">Select Your Category</option>
+                    <option value="Food">Food</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Purchase">Purchase</option>
+                    <option value="Entertainment">Entertainment</option>
+                </select>
+                <br><br>
+       
+                <label for="expenseDate" id="ED">Expense Date:</label>
+                <input type="date" id="expenseDate">
+                <br><br>
+       
+                <h4>Expense Type:</h4>
+                Official : <input type="radio" name="expenseType" >  <br> <br>
+                Personal : <input type="radio" name="expenseType"><br> <br>
+               
+       
+                <button type="button" onclick="add()" id="addbtn">Add</button>
+                <button type="button" onclick="display()" id="disbtn">Display</button>
+               
+            </form>
+ 
+           
+        </div>
+       
+       <div id="second-half">
+        <table id="expenseTable">
+            <thead>
+                <tr>
+                    <th id="tED">Expense Description</th>
+                    <th id="tCT">Category</th>
+                    <th id="tD">Date</th>
+                    <th class="amount" id="tA">Amount</th>
+                    <th class="ExpenseType"
+                    id="tE">Expense Type</th>
+                </tr>
+            </thead>
+            <tbody>
+               
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="total" id="tTA">Total Amount:</td>
+                    <td id="totalAmount" class="amount" >0</td>
+                </tr>
+            </tfoot>
+        </table>
+   
+       </div>
+       
+       
+    </div>
+   
+       
+       
+    <script >
+        let expenses = [];
+ 
+function add() {
+    const amount = parseFloat(document.getElementById('amount').value);
+    const description = document.getElementById('description').value;
+    const category = document.getElementById('category').value;
+    const date = document.getElementById('expenseDate').value;
+    const expenseType = document.querySelector('input[name="expenseType"]:checked').value;
+ 
+    if (!amount || !description || !category || !date || !expenseType) {
+       alert("Please fill the all input tags");
+       
+    }
+ 
+    expenses.push({ description, category, date, amount ,expenseType});
+ 
+    alert("Added Succesfully");
+   
+}
+ 
+ 
+ 
+ 
+function display() {
+    const tbody = document.getElementById('expenseTable').querySelector('tbody');
+    tbody.innerHTML = '';
+    let total = 0;
+ 
+    expenses.forEach(expense => {
+        const row = document.createElement('tr');
+        const des = document.createElement('td');
+        des.innerText = expense.description;
+        const cat = document.createElement('td');
+        cat.innerText = expense.category;
+        const dat = document.createElement('td');
+        dat.innerText = expense.date;
+        const am = document.createElement('td');
+        am.innerText = expense.amount;
+        const extype = document.createElement('td');
+        extype.innerText= expense.expenseType;
+       
+ 
+    // row.innerHTML = `
+    //         <td class="description">${expense.description}</td>
+    //         <td>${expense.category}</td>
+    //         <td>${expense.date}</td>
+    //         <td class="amount">${expense.amount}</td>
+    //         <td>${expense.expenseType}</td>
+    //     `;
+    row.appendChild(des);
+    row.appendChild(cat);
+    row.appendChild(dat);
+    row.appendChild(am);
+    row.appendChild(extype);
+        tbody.appendChild(row);
+        total += expense.amount;
+    });
+ 
+    document.getElementById('totalAmount').textContent = total.toFixed(3);
+}
+ 
+    </script>
+</body>
+</html>
+ 
